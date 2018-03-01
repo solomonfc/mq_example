@@ -1,6 +1,13 @@
 #include <stdio.h>
+#include <sys/timeb.h>
 #include <hiredis/hiredis.h>
 #define CHUNK 8192  /* read 8192 bytes at a time */
+
+long long getSystemTime() {
+    struct timeb t;
+    ftime(&t);
+    return 1000 * t.time + t.millitm;
+}
 
 int main(int argc,char *argv[]){
 
@@ -39,13 +46,29 @@ int main(int argc,char *argv[]){
 	reply = redisCommand(c, "AUTH h@HZI7SyC6v23QkL2&BV6^dfe7OUufW3");
 	freeReplyObject(reply);
 
-
-	int i;
+	long long start=getSystemTime();
+	long long end;
+	
+	
+	int i, j;
 	while(i<2000000){
 		reply = redisCommand(c, "LPUSH %s %s", "clist", buf);
-		freeReplyObject(reply);
-		i++;
-	}
+		freeReplyObject(reply);		
+		
+		i++;		
 
+		if(j>=10000){
+
+			j=0;
+			end=getSystemTime();			
+			printf("time: %lld ms\n", end-start);
+			start=getSystemTime();
+
+		}
+		
+		j++;
+
+	}
+	
 	return 0;
 }
