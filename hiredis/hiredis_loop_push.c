@@ -45,6 +45,8 @@ int main(int argc,char *argv[]){
 
 	reply = redisCommand(c, "AUTH h@HZI7SyC6v23QkL2&BV6^dfe7OUufW3");
 	freeReplyObject(reply);
+	
+	long long loop_start=getSystemTime();
 
 	long long start=getSystemTime();
 	long long end;
@@ -61,7 +63,7 @@ int main(int argc,char *argv[]){
 
 			j=0;
 			end=getSystemTime();			
-			printf("time: %lld ms\n", end-start);
+			printf("10000 push time cost: %lld ms\n", end-start);
 			start=getSystemTime();
 
 		}
@@ -69,6 +71,9 @@ int main(int argc,char *argv[]){
 		j++;
 
 	}
+	
+	long long loop_end=getSystemTime();
+	printf("total time: %lld ms\n", loop_end-loop_start);
 	
 	return 0;
 }
