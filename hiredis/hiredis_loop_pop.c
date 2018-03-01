@@ -36,8 +36,14 @@ int main(int argc,char *argv[]){
 	while(i<2000000){
 		
 		reply = redisCommand(c, "RPOP %s", "clist");
-		freeReplyObject(reply);	
 		
+		if(strlen(reply->str)==0){
+			freeReplyObject(reply);	
+			break;
+		}
+
+		freeReplyObject(reply);	
+
 		i++;		
 
 		if(j>=10000){
