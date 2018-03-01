@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <sys/timeb.h>
 #include <hiredis/hiredis.h>
-#define CHUNK 8192  /* read 8192 bytes at a time */
 
 long long getSystemTime() {
     struct timeb t;
@@ -10,26 +9,6 @@ long long getSystemTime() {
 }
 
 int main(int argc,char *argv[]){
-
-	if(argc==1){
-	  printf("have not enter file name strike any key exit\n");
-	  return -1;
-	}
-
-	char buf[CHUNK];
-	FILE *file;
-	size_t nread;
-
-	file = fopen(argv[1], "r");
-	if (file) {
-	if ((nread = fread(buf, 1, sizeof buf, file)) > 0){
-		fwrite(buf, 1, nread, stdout);
-	}
-	if (ferror(file)) {
-	/* deal with error */
-	}
-	fclose(file);
-	}
 
 	redisContext *c = redisConnect("127.0.0.1", 7000);
 	if (c == NULL || c->err) {
@@ -48,7 +27,6 @@ int main(int argc,char *argv[]){
 
 	long long start=getSystemTime();
 	long long end;
-	
 	
 	int i, j;
 	while(i<2000000){
