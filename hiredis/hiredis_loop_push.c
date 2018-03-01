@@ -63,7 +63,7 @@ int main(int argc,char *argv[]){
 
 			j=0;
 			end=getSystemTime();			
-			printf("10000 push time cost: %lld ms\n", end-start);
+			printf("10000 push time cost(ms): %lld \n", end-start);
 			start=getSystemTime();
 
 		}
